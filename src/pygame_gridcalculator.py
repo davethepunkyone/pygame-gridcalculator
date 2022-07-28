@@ -1,28 +1,29 @@
-from src.exceptions import GridCalculatorException
+class GridCalculatorException(Exception):
+    pass
 
 
 class GridCalculator:
     """Create a GridCalculator to map the available pixels on the screen
-       against a grid of the users size.
+       against a grid of the users specified size.
 
     Parameters:
-        window_width (int): The width of the window to base the grid on
-        window_height (int): The height of the window to base the grid on
-        grid_width_max (int): The max width point of the grid
-        grid_height_max (int): The max height point of the grid"""
+        window_width (int): The width of the window to base the grid on in
+                            pixels
+        window_height (int): The height of the window to base the grid on in
+                             pixels
+        grid_width_max (int): The max width point of the grid (right border)
+        grid_height_max (int): The max height point of the grid (bottom border)
+    """
 
     def __init__(self, window_width: int, window_height: int,
                  grid_width_max: int, grid_height_max: int):
-        self._width_points = {}
-        self._height_points = {}
-        # Width point calculation
-        self._width_points[0] = 0
+        self._width_points, self._height_points = {0: 0}, {0: 0}
         w, h = 1, 1
+        # Width point calculation
         while w <= grid_width_max:
             self._width_points[w] = int((window_width / grid_width_max) * w)
             w += 1
         # Height point calculation
-        self._height_points[0] = 0
         while h <= grid_height_max:
             self._height_points[h] = int((window_height / grid_height_max) * h)
             h += 1

@@ -1,2 +1,0 @@
-class GridCalculatorException(Exception):
-    pass

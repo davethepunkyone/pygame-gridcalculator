@@ -1,13 +1,11 @@
 import unittest
-from src.grid_calculator import GridCalculator
+from src.pygame_gridcalculator import GridCalculator
 
 
 class TestGridCalculator(unittest.TestCase):
     def setUp(self) -> None:
-        grid = GridCalculator(100, 100, 5, 5)
         self.test_grid = GridCalculator(100, 100, 5, 5)
         self.test_grid2 = GridCalculator(10, 20, 5, 10)
-        print(self.test_grid)
 
     def test_get_size(self) -> None:
         """Test the size of the grid is returned correctly."""
