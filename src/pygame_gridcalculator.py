@@ -17,6 +17,19 @@ class GridCalculator:
 
     def __init__(self, window_width: int, window_height: int,
                  grid_width_max: int, grid_height_max: int):
+        # Initial Checks
+        if grid_width_max < 1:
+            raise GridCalculatorException("Grid width must be greater than 1")
+        if grid_height_max < 1:
+            raise GridCalculatorException("Grid height must be greater than 1")
+        if window_width < grid_width_max:
+            raise GridCalculatorException("The grid width cannot be greater "
+                                          "than the window width")
+        if window_height < grid_height_max:
+            raise GridCalculatorException("The grid height cannot be greater "
+                                          "than the window height")
+
+        # Actual Setup
         self._width_points, self._height_points = {0: 0}, {0: 0}
         w, h = 1, 1
         # Width point calculation
@@ -38,6 +51,20 @@ class GridCalculator:
 
     def __sizeof__(self):
         return self.size
+
+    def _error_check_left(self, left_point: int) -> None:
+        """Left point error checking, checks left_point is in grid"""
+        if left_point not in self._width_points:
+            raise GridCalculatorException(
+                "The left point provided ({}) isn't in the grid "
+                "(0 - {})".format(left_point, max(self._width_points.keys())))
+
+    def _error_check_top(self, top_point: int) -> None:
+        """Top point error checking, checks top_point is in grid"""
+        if top_point not in self._height_points:
+            raise GridCalculatorException(
+                "The top point provided ({}) isn't in the grid "
+                "(0 - {})".format(top_point, max(self._height_points.keys())))
 
     @property
     def size(self) -> tuple:
@@ -65,7 +92,7 @@ class GridCalculator:
 
         Returns:
             int: The pixel value represented by the top grid point."""
-
+        self._error_check_top(point)
         return self._height_points.get(point)
 
     def left_point(self, point: int) -> int:
@@ -76,7 +103,7 @@ class GridCalculator:
 
         Returns:
             int: The pixel value represented by the left grid point."""
-
+        self._error_check_left(point)
         return self._width_points.get(point)
 
     def position(self, left_point: int, top_point: int) -> tuple:
@@ -90,7 +117,8 @@ class GridCalculator:
         Returns:
             tuple: The pixel values represented by the grid points (left, top)
         """
-
+        self._error_check_left(left_point)
+        self._error_check_top(top_point)
         return self.left_point(left_point), self.top_point(top_point)
 
     def height_gap(self, top_point1: int, top_point2: int) -> int:
@@ -102,6 +130,8 @@ class GridCalculator:
 
         Returns:
             int: The number of pixels between the two top points."""
+        self._error_check_top(top_point1)
+        self._error_check_top(top_point2)
         if top_point1 > top_point2:
             raise GridCalculatorException("top_point1 is greater than "
                                           "top_point2")
@@ -117,6 +147,8 @@ class GridCalculator:
 
         Returns:
             int: The number of pixels between the two left points."""
+        self._error_check_left(left_point1)
+        self._error_check_left(left_point2)
         if left_point1 > left_point2:
             raise GridCalculatorException("left_point1 is greater than "
                                           "left_point2")
@@ -140,6 +172,10 @@ class GridCalculator:
         Returns:
             tuple: The pixel width and height of the square outlined
                    (width, height)"""
+        self._error_check_left(left_start)
+        self._error_check_top(top_start)
+        self._error_check_left(left_end)
+        self._error_check_top(top_end)
         if left_start > left_end:
             raise GridCalculatorException("left_start is greater than "
                                           "left_end")
@@ -158,7 +194,7 @@ class GridCalculator:
 
         Returns:
             int: The left pixel value represented by the grid point."""
-
+        self._error_check_left(points)
         return self.left_point(points)
 
     def points_from_top(self, points: int) -> int:
@@ -170,7 +206,7 @@ class GridCalculator:
 
         Returns:
             int: The top pixel value represented by the grid point."""
-
+        self._error_check_top(points)
         return self.top_point(points)
 
     def points_from_right(self, points: int) -> int:
@@ -182,7 +218,7 @@ class GridCalculator:
 
         Returns:
             int: The left pixel value represented by the grid point."""
-
+        self._error_check_left(max(self._width_points.keys()) - points)
         return self.left_point(max(self._width_points.keys()) - points)
 
     def points_from_bottom(self, points: int) -> int:
@@ -194,5 +230,5 @@ class GridCalculator:
 
         Returns:
             int: The top pixel value represented by the grid point."""
-
+        self._error_check_top(max(self._height_points.keys()) - points)
         return self.top_point(max(self._height_points.keys()) - points)

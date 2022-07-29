@@ -1,11 +1,39 @@
 import unittest
-from src.pygame_gridcalculator import GridCalculator
+from src.pygame_gridcalculator import GridCalculator, GridCalculatorException
 
 
 class TestGridCalculator(unittest.TestCase):
     def setUp(self) -> None:
         self.test_grid = GridCalculator(100, 100, 5, 5)
         self.test_grid2 = GridCalculator(10, 20, 5, 10)
+
+    def test_left_error_check_too_low(self) -> None:
+        """Test the left error check."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid._error_check_left(-1)
+            self.assertEqual(err, "The left point provided (-1) isn't in the "
+                                  "grid  (0 - 5)")
+
+    def test_left_error_check_too_high(self) -> None:
+        """Test the left error check."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid._error_check_left(6)
+            self.assertEqual(err, "The left point provided (6) isn't in the "
+                                  "grid  (0 - 5)")
+
+    def test_top_error_check_too_low(self) -> None:
+        """Test the top error check."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid._error_check_top(-1)
+            self.assertEqual(err, "The top point provided (-1) isn't in the "
+                                  "grid  (0 - 5)")
+
+    def test_top_error_check_too_high(self) -> None:
+        """Test the left error check."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid._error_check_top(6)
+            self.assertEqual(err, "The top point provided (6) isn't in the "
+                                  "grid  (0 - 5)")
 
     def test_get_size(self) -> None:
         """Test the size of the grid is returned correctly."""
@@ -38,6 +66,13 @@ class TestGridCalculator(unittest.TestCase):
         self.assertEqual(self.test_grid2.top_point(9), 18)
         self.assertEqual(self.test_grid2.top_point(10), 20)
 
+    def test_top_point_error(self) -> None:
+        """Test getting the top point returns an error when invalid."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.top_point(60)
+            self.assertEqual(err, "The top point provided (60) isn't in the "
+                                  "grid (0 - 5)")
+
     def test_left_point(self) -> None:
         """Test getting the left point returns the right value."""
         self.assertEqual(self.test_grid.left_point(0), 0)
@@ -53,6 +88,13 @@ class TestGridCalculator(unittest.TestCase):
         self.assertEqual(self.test_grid2.left_point(3), 6)
         self.assertEqual(self.test_grid2.left_point(4), 8)
         self.assertEqual(self.test_grid2.left_point(5), 10)
+
+    def test_left_point_error(self) -> None:
+        """Test getting the left point returns an error when invalid."""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.left_point(33)
+            self.assertEqual(err, "The left point provided (33) isn't in the "
+                                  "grid (0 - 5)")
 
     def test_position(self) -> None:
         """Test getting the position returns the right value."""
