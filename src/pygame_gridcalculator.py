@@ -18,6 +18,12 @@ class GridCalculator:
     def __init__(self, window_width: int, window_height: int,
                  grid_width_max: int, grid_height_max: int):
         # Initial Checks
+        if window_width < 1:
+            raise GridCalculatorException("Window width must be greater than "
+                                          "1")
+        if window_height < 1:
+            raise GridCalculatorException("Window height must be greater than "
+                                          "1")
         if grid_width_max < 1:
             raise GridCalculatorException("Grid width must be greater than 1")
         if grid_height_max < 1:
