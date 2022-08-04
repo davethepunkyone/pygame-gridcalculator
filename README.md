@@ -21,6 +21,11 @@ co-ordinates to the position on the screen you want to reference.
 Created grids will always have a starting left and top position of 0.
 
 ## Initialize and Methods
+### Install
+To install the Grid Calculator, you can download it using PIP:
+
+    pip install pygame-gridcalculator
+
 ### Import
 To import the Grid Calculator use the following statement:
 
