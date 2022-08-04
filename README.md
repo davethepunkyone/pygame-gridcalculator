@@ -20,15 +20,33 @@ co-ordinates to the position on the screen you want to reference.
 
 Created grids will always have a starting left and top position of 0.
 
-## Methods
-This tool has the following methods:
+## Initialize and Methods
+### Initialize Grid
+To initialize a grid, use the following logic to assign to a variable:
+
+    grid = Grid(display_width, display_height, grid_width, grid_height)
+
+The arguments to specify are as follows:
+* __display_width__: _The width of the current pygame display_
+* __display_height__: _The height of the current pygame display_
+* __grid_width__: _The total number of points you want in your grid from left to right_
+* __grid_height__: _The total number of points you want in your grid from top to bottom_
+
+So if you want to initialize a grid that is 8x6 for your display of 800x600, the code
+would look something like:
+
+    display = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+    grid = Grid(display.get_width(), display.get_height(), 8, 6)
+
+### Grid Methods
+The grid has the following methods and functions:
 
 | Method                                                                           | Description                                                                                                                                     |
 |----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | __size__                                                                         | _Returns the total number of points in the grid (width, height)._                                                                               |
 | __max_points__                                                                   | _Returns the max points of the grid (width, height)._                                                                                           |
 | __top_point(point: _int_)__                                                      | _Returns the pixel value for the point selected from the top of the grid._                                                                      |
-| __left_point(point: _int_)__                                                     | Returns the pixel value for the point selected from the left of the grid._                                                                      |
+| __left_point(point: _int_)__                                                     | _Returns the pixel value for the point selected from the left of the grid._                                                                     |
 | __position(left_point: _int_, top_point: _int_)__                                | _Returns the pixel values for the point co-ordinates selected from the grid (left, top)._                                                       |
 | __height_gap(top_point1: _int_, top_point2: _int_)__                             | _Returns the pixel height between the two top grid points specified._                                                                           |
 | __width_gap(left_point1: _int_, left_point2: _int_)__                            | _Returns the pixel width between the two left grid points specified._                                                                           |
