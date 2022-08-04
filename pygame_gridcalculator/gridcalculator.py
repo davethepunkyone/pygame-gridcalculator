@@ -1,3 +1,6 @@
+from pygame import Surface, draw
+
+
 class GridCalculatorException(Exception):
     pass
 
@@ -238,3 +241,22 @@ class GridCalculator:
             int: The top pixel value represented by the grid point."""
         self._error_check_top(max(self._height_points.keys()) - points)
         return self.top_point(max(self._height_points.keys()) - points)
+
+    def draw_grid_to_surface(self, surface: Surface) -> None:
+        """Draws the grid to the pygame surface provided.
+
+        Parameters:
+            surface (pygame.Surface): The surface you want to show the grid
+                                      on."""
+        # Draw lines from left to right
+        for left_point in self._width_points.keys():
+            draw.line(surface, (0, 0, 0),
+                      (self.left_point(left_point), self.top_point(0)),
+                      (self.left_point(left_point),
+                      self.top_point(max(self._height_points.keys()))))
+        # Draw lines from top to bottom
+        for top_point in self._height_points.keys():
+            draw.line(surface, (0, 0, 0),
+                      (self.left_point(0), self.top_point(top_point)),
+                      (self.left_point(max(self._width_points.keys())),
+                      self.top_point(top_point)))
