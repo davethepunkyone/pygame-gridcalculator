@@ -21,10 +21,15 @@ co-ordinates to the position on the screen you want to reference.
 Created grids will always have a starting left and top position of 0.
 
 ## Initialize and Methods
-### Initialize Grid
-To initialize a grid, use the following logic to assign to a variable:
+### Import
+To import the Grid Calculator use the following statement:
 
-    grid = Grid(display_width, display_height, grid_width, grid_height)
+    from pygame_gridcalculator import GridCalculator
+
+### Initialize Grid Calculator
+To initialize a grid Calculator, use the following logic to assign to a variable:
+
+    grid = GridCalculator(display_width, display_height, grid_width, grid_height)
 
 The arguments to specify are as follows:
 * __display_width__: _The width of the current pygame display_
@@ -38,8 +43,8 @@ would look something like:
     display = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     grid = Grid(display.get_width(), display.get_height(), 8, 6)
 
-### Grid Methods
-The grid has the following methods and functions:
+### Grid Calculator Methods
+The grid calculator has the following methods and functions:
 
 | Method                                                                           | Description                                                                                                                                     |
 |----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -58,14 +63,14 @@ The grid has the following methods and functions:
 
 ## Example
 ### Basic usage
-Setting the variable and creating a new rect using a grid:
+Setting the variable and creating a new rect using a grid calculator:
 
     display = pygame.display.set_mode((200, 100), pygame.RESIZABLE)
     display.fill((255, 255, 255))
     grid = GridCalculator(display.get_width(), display.get_height(), 10, 5)
     
-    rect = pygame.Rect(grid.left_point(1), grid.left_point(1),
-                       grid.width_gap(1, 3), grid.height_gap(1, 3))
+    rect = pygame.Rect(grid.left_point(1), grid.top_point(1),
+                       grid.width_gap(1, 3), grid.height_gap(1, 4))
     pygame.draw.rect(display, (255, 0, 0), rect)
 
 So in this example, a pygame display is created of 200x100 pixels, and a grid
@@ -74,9 +79,26 @@ point, like so:
 
 ![Example 1 Grid](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_1_grid.png)
 
-This creates a square on the screen like so:
+When it comes to drawing the Rect, the calculator identifies that it requires the following:
+ * Left grid point 1 as the start left position, which in this scenario returns 20
+   * _Logic used: (200 / 10) * 1 = 20 pixels from left_
+ * Top grid point 1 as the start top position, which in this scenario also returns 20 
+   * _Logic used: (100 / 5) * 1 = 20 pixels from top_
+ * The gap between left grid point 1 and 3 for the width, which returns 40 
+   * _Logic used:_ 
+     * _Point 1 = (200 / 10) * 1 = 20 pixels from left_
+     * _Point 3 = (200 / 10) * 3 = 60 pixels from left_
+     * _60 - 20 = 40 pixels width_
+ * The gap between top grid point 1 and 4 for the height, which returns 60
+   * _Logic used:_
+     * _Point 1 = (100 / 5) * 1 = 20 pixels from top_
+     * _Point 3 = (100 / 5) * 4 = 80 pixels from top_
+     * _80 - 20 = 60 pixels height_
+
+Using this information creates a rectangle on the screen like so:
 
 ![Example 1 Pygame](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_1_pygame.png)
+
 
 ### Full Scalable Example
 The following creates an initial display with a rect and a grid that
@@ -86,7 +108,7 @@ can scale with the display.
         running = True
         display = pygame.display.set_mode((300, 300), pygame.RESIZABLE)
         display_height, display_width = display.get_height(), display.get_width()
-        grid = Grid(display_width, display_height, 20, 20)
+        grid = GridCalculator(display_width, display_height, 20, 20)
     
         pygame.init()
     
@@ -100,7 +122,7 @@ can scale with the display.
                 if event.type == pygame.VIDEORESIZE:
                     display_height = event.h
                     display_width = event.w
-                    grid = Grid(display_width, display_height, 20, 20)
+                    grid = GridCalculator(display_width, display_height, 20, 20)
     
             # Draw face
             pygame.draw.rect(display, (255, 0, 0),
