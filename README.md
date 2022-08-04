@@ -72,11 +72,11 @@ So in this example, a pygame display is created of 200x100 pixels, and a grid
 is created splitting this into a 10x5 grid, where each square is a 20x20 grid 
 point, like so:
 
-![Example 1 Grid](images/example_1_grid.png)
+![Example 1 Grid](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_1_grid.png)
 
 This creates a square on the screen like so:
 
-![Example 1 Pygame](images/example_1_pygame.png)
+![Example 1 Pygame](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_1_pygame.png)
 
 ### Full Scalable Example
 The following creates an initial display with a rect and a grid that
@@ -146,13 +146,13 @@ scale based on the new size of the window, still in a 20x20 grid.
 
 When the window initially loads, the shapes display like so:
 
-![Example 2 Pygame Default](images/example_2_pygame_default.png)
+![Example 2 Pygame Default](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_2_pygame_default.png)
 
 If the window is resized, the shapes adjust with the size of the grid:
 
-![Example 2 Pygame Default](images/example_2_pygame_long.png)
+![Example 2 Pygame Default](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_2_pygame_long.png)
 
-![Example 2 Pygame Default](images/example_2_pygame_wide.png)
+![Example 2 Pygame Default](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/example_2_pygame_wide.png)
 
 Dependent on the situation, you may want to modify the grid based on 
 the window size and rescale the grid appropriately.  Because the grid is
