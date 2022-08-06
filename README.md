@@ -65,6 +65,7 @@ The grid calculator has the following methods and functions:
 | __points_from_top(points: _int_)__                                               | _Returns the pixel value for the amount of grid points away from the top border._                                                               |
 | __points_from_right(points: _int_)__                                             | _Returns the pixel value for the amount of grid points away from the right border._                                                             |
 | __points_from_bottom(points: _int_)__                                            | _Returns the pixel value for the amount of grid points away from the bottom border._                                                            |
+| __draw_grid_to_surface(surface: _pygame.Surface_)__                              | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
 
 ## Example
 ### Basic usage
