@@ -1,5 +1,5 @@
 import pygame
-from gridcalculator import GridCalculator
+from .gridcalculator import GridCalculator
 
 
 class ShapeFactory:
