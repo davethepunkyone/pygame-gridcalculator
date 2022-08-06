@@ -1,2 +1,3 @@
 from .gridcalculator import GridCalculator, GridCalculatorException
-__all__ = [GridCalculator, GridCalculatorException]
+from .shapefactory import ShapeFactory
+__all__ = [GridCalculator, GridCalculatorException, ShapeFactory]

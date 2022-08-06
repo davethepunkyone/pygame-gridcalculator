@@ -18,9 +18,6 @@ def start_view():
         return GridCalculator(display_width, display_height,
                               grid_width, grid_height)
 
-    def draw_expand_and_reduce_squares() -> None:
-        """Draws the expand and reduce squares to the display."""
-
     grid = calculate_grid()
 
     while running:
