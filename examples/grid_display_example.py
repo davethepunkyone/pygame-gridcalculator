@@ -1,3 +1,8 @@
+"""This example file shows some basic usage of the GridCalculator and how it
+displays a grid on the screen.  Also includes putting some shapes on the screen
+to show how the grid works and the ability to expand/reduce the grid to show
+how shapes scale with the grid."""
+
 import pygame
 import pygame.gfxdraw
 from gridcalculator import GridCalculator
@@ -5,7 +10,7 @@ from gridcalculator import GridCalculator
 pygame.init()
 
 
-def start_view():
+def grid_display_example():
     """This just shows the new draw grid to surface function"""
     running = True
     display = pygame.display.set_mode((300, 300), pygame.RESIZABLE)
@@ -17,9 +22,6 @@ def start_view():
         """This just recalculates the grid"""
         return GridCalculator(display_width, display_height,
                               grid_width, grid_height)
-
-    def draw_expand_and_reduce_squares() -> None:
-        """Draws the expand and reduce squares to the display."""
 
     grid = calculate_grid()
 
@@ -34,8 +36,7 @@ def start_view():
             if event.type == pygame.VIDEORESIZE:
                 display_height = event.h
                 display_width = event.w
-                grid = GridCalculator(display_width, display_height,
-                                      grid_width, grid_height)
+                grid = calculate_grid()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -114,4 +115,4 @@ def start_view():
         pygame.display.update()
 
 
-start_view()
+grid_display_example()
