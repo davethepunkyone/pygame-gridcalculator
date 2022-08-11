@@ -4,20 +4,20 @@ on the screen and the ability to create shapes based on the grid.
 
 __Contents__
 - [Purpose](#Purpose)
-- [How it works](#How it works)
+- [How it works](#How-it-works)
 - [Install](#Install)
 - [GridCalculator](#GridCalculator)
-  - [Import GridCalculator](#Import GridCalculator)
-  - [Initialize GridCalculator](#Initialize GridCalculator)
-  - [GridCalculator Methods and Functions](#GridCalculator Methods and Functions)
+  - [Import GridCalculator](#Import-GridCalculator)
+  - [Initialize GridCalculator](#Initialize-GridCalculator)
+  - [GridCalculator Methods and Functions](#GridCalculator-Methods-and-Functions)
 - [ShapeFactory](#ShapeFactory)
-  - [Import ShapeFactory](#Import ShapeFactory)
-  - [Initialize ShapeFactory](#Initialize ShapeFactory)
-  - [ShapeFactory Methods and Functions](#ShapeFactory Methods and Functions)
+  - [Import ShapeFactory](#Import-ShapeFactory)
+  - [Initialize ShapeFactory](#Initialize-ShapeFactory)
+  - [ShapeFactory Methods and Functions](#ShapeFactory-Methods-and-Functions)
 - [Examples](#Examples)
-  - [Basic usage](#Basic usage)
-  - [Full Scalable Example](#Full Scalable Example)
-  - [Additional Examples](#Additional Examples)
+  - [Basic usage](#Basic-usage)
+  - [Full Scalable Example](#Full-Scalable-Example)
+  - [Additional Examples](#Additional-Examples)
 
 ## Purpose
 This tool is designed to easily map positions on a pygame display without
