@@ -3,8 +3,8 @@ from .gridcalculator import GridCalculator
 
 
 class ShapeFactory:
-    def __init__(self, grid_calc: GridCalculator):
-        self.grid = grid_calc
+    def __init__(self, grid_calculator: GridCalculator):
+        self.grid = grid_calculator
 
     def _convert_grid_tuple(self, grid_tuple: tuple) -> tuple:
         """Takes the grid tuple and returns a pixel tuple."""

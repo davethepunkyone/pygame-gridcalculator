@@ -1,6 +1,23 @@
 # pygame-gridcalculator
 A tool that creates a custom-sized virtual grid for helping place objects 
-on the screen.
+on the screen and the ability to create shapes based on the grid.
+
+__Contents__
+- [Purpose](#Purpose)
+- [How it works](#How it works)
+- [Install](#Install)
+- [GridCalculator](#GridCalculator)
+  - [Import GridCalculator](#Import GridCalculator)
+  - [Initialize GridCalculator](#Initialize GridCalculator)
+  - [GridCalculator Methods and Functions](#GridCalculator Methods and Functions)
+- [ShapeFactory](#ShapeFactory)
+  - [Import ShapeFactory](#Import ShapeFactory)
+  - [Initialize ShapeFactory](#Initialize ShapeFactory)
+  - [ShapeFactory Methods and Functions](#ShapeFactory Methods and Functions)
+- [Examples](#Examples)
+  - [Basic usage](#Basic usage)
+  - [Full Scalable Example](#Full Scalable Example)
+  - [Additional Examples](#Additional Examples)
 
 ## Purpose
 This tool is designed to easily map positions on a pygame display without
@@ -16,22 +33,24 @@ To utilise this tool, you should initialise it to a variable and pass in the
 current screen size and the size of the grid you wish to use.
 
 Once the grid has been created, you use the GridCalculator to provide
-co-ordinates to the position on the screen you want to reference.
+co-ordinates to the position on the screen you want to reference.  You can then
+also use the ShapeFactory to place shapes on the screen based on the created
+GridCalculator.
 
 Created grids will always have a starting left and top position of 0.
 
-## Initialize and Methods
-### Install
+## Install
 To install the Grid Calculator, you can download it using PIP:
 
     pip install pygame-gridcalculator
 
-### Import
+## GridCalculator
+### Import GridCalculator
 To import the Grid Calculator use the following statement:
 
     from pygame_gridcalculator import GridCalculator
 
-### Initialize Grid Calculator
+### Initialize GridCalculator
 To initialize a grid Calculator, use the following logic to assign to a variable:
 
     grid = GridCalculator(display_width, display_height, grid_width, grid_height)
@@ -48,7 +67,7 @@ would look something like:
     display = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     grid = Grid(display.get_width(), display.get_height(), 8, 6)
 
-### Grid Calculator Methods
+### GridCalculator Methods and Functions
 The grid calculator has the following methods and functions:
 
 | Method                                                                           | Description                                                                                                                                     |
@@ -67,7 +86,41 @@ The grid calculator has the following methods and functions:
 | __points_from_bottom(points: _int_)__                                            | _Returns the pixel value for the amount of grid points away from the bottom border._                                                            |
 | __draw_grid_to_surface(surface: _pygame.Surface_)__                              | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
 
-## Example
+## ShapeFactory
+### Import ShapeFactory
+To import the shape factory use the following statement:
+
+    from pygame_gridcalculator import ShapeFactory
+
+### Initialize ShapeFactory
+To initialize a Shape Factory, you need to pass in a valid GridCalculator to work with.
+You can use the following logic to assign to a variable:
+
+    grid = GridCalculator(display_width, display_height, grid_width, grid_height)
+    shapefactory = ShapeFactory(grid)
+
+The arguments to specify are as follows:
+* __grid_calculator__: _The GridCalculator to use to generate shapes_
+
+### ShapeFactory Methods and Functions
+The shape factory has the following methods and functions:
+
+| Method                                                                                                                                                                                                                                                                     | Description                                                                  |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| __Rect(grid_left: _int_, grid_top: _int_, width: _float_, height: _float_)__                                                                                                                                                                                               | _Returns a pygame.Rect object with its position based off grid locators._    |
+| __draw_line(surface: _pygame.Surface_, color: _tuple_, grid_start_pos: _tuple_, grid_end_pos: _tuple_, width: _int (Optional)_)__                                                                                                                                          | _Draws a pygame.draw.line on the pygame.Surface based off grid locators._    |
+| __draw_lines(surface: _pygame.Surface_, color: _tuple_, closed: _bool_, grid_points: _list_, width: _int (Optional)_)__                                                                                                                                                    | _Draws a pygame.draw.lines on the pygame.Surface based off grid locators._   |
+| __draw_aaline(surface: _pygame.Surface_, color: _tuple_, grid_start_pos: _tuple_, grid_end_pos: _tuple_, blend: _int (Optional)_)__                                                                                                                                        | _Draws a pygame.draw.aaline on the pygame.Surface based off grid locators._  |
+| __draw_aalines(surface: _pygame.Surface_, color: _tuple_, closed: _bool_, grid_points: _list_, blend: _int (Optional)_)__                                                                                                                                                  | _Draws a pygame.draw.aalines on the pygame.Surface based off grid locators._ |
+| __draw_polygon(surface: _pygame.Surface_, color: _tuple_, grid_points: _list_, width: _int (Optional)_)__                                                                                                                                                                  | _Draws a pygame.draw.polygon on the pygame.Surface based off grid locators._ |
+| __draw_circle(surface: _pygame.Surface_, color: _tuple_, grid_center: _tuple_, radius: _float_, width: _int (Optional)_, draw_top_right: _bool (Optional)_, draw_top_left: _bool (Optional)_, draw_bottom_left: _bool (Optional)_, draw_bottom_right: _bool (Optional)_)__ | _Draws a pygame.draw.circle on the pygame.Surface based off grid locators._  |
+
+The shape factory currently only creates shapes where positions are explicitly specified.
+Any other shapes should be generated using the Rect method (as you generally pass in a Rect 
+as part of the shape being drawn).  Further information on this can be found directly in the
+[pygame draw documentation](https://www.pygame.org/docs/ref/draw.html).
+
+## Examples
 ### Basic usage
 Setting the variable and creating a new rect using a grid calculator:
 
@@ -186,3 +239,6 @@ Dependent on the situation, you may want to modify the grid based on
 the window size and rescale the grid appropriately.  Because the grid is
 repopulated on the resize an if statement could be added if needed to
 check the screen width/height and modify the grid as needed.
+
+### Additional Examples
+A number of examples are also present in the [examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) directory of the project.
