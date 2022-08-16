@@ -2,6 +2,7 @@ from pygame import Surface, draw
 
 
 class GridCalculatorException(Exception):
+    """An exception used for GridCalculator-based exceptions."""
     pass
 
 
@@ -10,59 +11,133 @@ class GridCalculator:
        against a grid of the users specified size.
 
     Parameters:
-        window_width (int): The width of the window to base the grid on in
-                            pixels
-        window_height (int): The height of the window to base the grid on in
-                             pixels
-        grid_width_max (int): The max width point of the grid (right border)
-        grid_height_max (int): The max height point of the grid (bottom border)
+        surface_width (int): The width of the surface to base the grid on in
+                            pixels.
+        surface_height (int): The height of the surface to base the grid on in
+                             pixels.
+        grid_width_max (int): The max width point of the grid (right border).
+        grid_height_max (int): The max height point of the grid (bottom
+                               border).
     """
 
-    def __init__(self, window_width: int, window_height: int,
+    def __init__(self, surface_width: int, surface_height: int,
                  grid_width_max: int, grid_height_max: int):
-        # Initial Checks
-        if window_width < 1:
-            raise GridCalculatorException("Window width must be greater than "
-                                          "1")
-        if window_height < 1:
-            raise GridCalculatorException("Window height must be greater than "
-                                          "1")
-        if grid_width_max < 1:
-            raise GridCalculatorException("Grid width must be greater than 1")
-        if grid_height_max < 1:
-            raise GridCalculatorException("Grid height must be greater than 1")
-        if window_width < grid_width_max:
-            raise GridCalculatorException("The grid width cannot be greater "
-                                          "than the window width")
-        if window_height < grid_height_max:
-            raise GridCalculatorException("The grid height cannot be greater "
-                                          "than the window height")
+        # Create and calculate grid
+        self._check_value_links_are_valid(surface_width, surface_height,
+                                          grid_width_max, grid_height_max)
+        self._surface_width = surface_width
+        self._surface_height = surface_height
+        self._grid_width_max = grid_width_max
+        self._grid_height_max = grid_height_max
+        self._calculate_grid()
 
-        # Actual Setup
+    @staticmethod
+    def _check_value_links_are_valid(surface_width: int, surface_height: int,
+                                     grid_width_max: int,
+                                     grid_height_max: int) -> None:
+        """Checks values which are inherently linked are valid before trying to
+         set them.
+
+        Parameters:
+            surface_width (int): The width of the surface to base the grid on
+                                 in pixels.
+            surface_height (int): The height of the surface to base the grid on
+                                  in pixels.
+            grid_width_max (int): The max width point of the grid (right
+                                  border).
+            grid_height_max (int): The max height point of the grid (bottom
+                                   border).
+        """
+        if surface_width < grid_width_max:
+            raise GridCalculatorException("The grid width ({}) cannot be "
+                                          "greater than the surface width "
+                                          "({})".format(grid_width_max,
+                                                        surface_width))
+        if surface_height < grid_height_max:
+            raise GridCalculatorException("The grid height ({}) cannot be "
+                                          "greater than the surface height "
+                                          "({})".format(grid_height_max,
+                                                        surface_height))
+
+    def _calculate_grid(self) -> None:
+        """Calculate the grid used for other methods"""
         self._width_points, self._height_points = {0: 0}, {0: 0}
         w, h = 1, 1
         # Width point calculation
-        while w <= grid_width_max:
-            self._width_points[w] = int((window_width / grid_width_max) * w)
+        while w <= self._grid_width_max:
+            self._width_points[w] = \
+                int((self._surface_width / self._grid_width_max) * w)
             w += 1
         # Height point calculation
-        while h <= grid_height_max:
-            self._height_points[h] = int((window_height / grid_height_max) * h)
+        while h <= self._grid_height_max:
+            self._height_points[h] = \
+                int((self._surface_height / self._grid_height_max) * h)
             h += 1
 
     def __repr__(self):
-        return "GridCalculator(pixel: width={}, height={}; " \
-               "grid: width={}, height={})".format(
-                   self._width_points.get(max(self._width_points)),
-                   self._height_points.get(max(self._height_points)),
-                   max(self._width_points.keys()),
-                   max(self._height_points.keys()))
+        return "GridCalculator(pixel: width={}, height={};  grid: width={}, " \
+               "height={})".format(self._width_points.get(max(
+                                       self._width_points)),
+                                   self._height_points.get(max(
+                                       self._height_points)),
+                                   max(self._width_points.keys()),
+                                   max(self._height_points.keys()))
 
     def __sizeof__(self):
         return self.size
 
+    @property
+    def _surface_width(self) -> int:
+        """Get surface width."""
+        return self._s_width
+
+    @_surface_width.setter
+    def _surface_width(self, width: int) -> None:
+        """Set surface width."""
+        if width < 1:
+            raise GridCalculatorException("Surface width must be greater than "
+                                          "1")
+        self._s_width = width
+
+    @property
+    def _surface_height(self) -> int:
+        """Get surface height."""
+        return self._s_height
+
+    @_surface_height.setter
+    def _surface_height(self, height: int) -> None:
+        """Set surface height."""
+        if height < 1:
+            raise GridCalculatorException("Surface height must be greater than"
+                                          " 1")
+        self._s_height = height
+
+    @property
+    def _grid_width_max(self) -> int:
+        """Get grid width."""
+        return self._g_width
+
+    @_grid_width_max.setter
+    def _grid_width_max(self, grid_width_max: int) -> None:
+        """Set grid width."""
+        if grid_width_max < 1:
+            raise GridCalculatorException("Grid width must be greater than 1")
+        self._g_width = grid_width_max
+
+    @property
+    def _grid_height_max(self) -> int:
+        """Get grid height."""
+        return self._g_height
+
+    @_grid_height_max.setter
+    def _grid_height_max(self, grid_height_max: int) -> None:
+        """Set grid height."""
+        if grid_height_max < 1:
+            raise GridCalculatorException("Grid height must be greater than 1")
+        self._g_height = grid_height_max
+
     def _error_check_left(self, left_point: int) -> None:
-        """Left point error checking, checks left_point is in grid"""
+        """Left point error checking, checks left_point is in grid."""
         if left_point not in self._width_points:
             raise GridCalculatorException(
                 "The left point provided ({}) isn't in the grid "
@@ -75,13 +150,42 @@ class GridCalculator:
                 "The top point provided ({}) isn't in the grid "
                 "(0 - {})".format(top_point, max(self._height_points.keys())))
 
+    def update_grid(self, grid_width_max: int, grid_height_max: int) -> None:
+        """Recalculates the grid based on the provided width and height.
+
+        Parameters:
+            grid_width_max (int): The max width point of the grid (right
+                                  border).
+            grid_height_max (int): The max height point of the grid (bottom
+                                   border)."""
+        self._check_value_links_are_valid(self._surface_width,
+                                          self._surface_height,
+                                          grid_width_max, grid_height_max)
+        self._grid_width_max = grid_width_max
+        self._grid_height_max = grid_height_max
+        self._calculate_grid()
+
+    def update_surface(self, surface_width: int, surface_height: int) -> None:
+        """Recalculates the surface size the grid is based on.
+
+        Parameters:
+            surface_width (int): The width of the surface to base the grid on
+                                 in pixels.
+            surface_height (int): The height of the surface to base the grid on
+                                  in pixels."""
+        self._check_value_links_are_valid(surface_width, surface_height,
+                                          self._grid_width_max,
+                                          self._grid_height_max)
+        self._surface_width = surface_width
+        self._surface_height = surface_height
+        self._calculate_grid()
+
     @property
     def size(self) -> tuple:
         """Returns the size of the grid.
 
         Returns:
             tuple: The actual size of the grid (width, height)"""
-
         return len(self._width_points), len(self._height_points)
 
     @property
@@ -90,7 +194,6 @@ class GridCalculator:
 
         Returns:
             tuple: The max points of the grid (width, height)."""
-
         return max(self._width_points), max(self._height_points)
 
     def top_point(self, point: int) -> int:
@@ -191,8 +294,8 @@ class GridCalculator:
         if top_start > top_end:
             raise GridCalculatorException("top_start is greater than top_end")
 
-        return self.width_gap(left_start, left_end), \
-            self.height_gap(top_start, top_end)
+        return self.width_gap(left_start, left_end), self.height_gap(top_start,
+                                                                     top_end)
 
     def points_from_left(self, points: int) -> int:
         """Returns the pixel position from the specified number of points from
@@ -253,10 +356,10 @@ class GridCalculator:
             draw.line(surface, (0, 0, 0),
                       (self.left_point(left_point), self.top_point(0)),
                       (self.left_point(left_point),
-                      self.top_point(max(self._height_points.keys()))))
+                       self.top_point(max(self._height_points.keys()))))
         # Draw lines from top to bottom
         for top_point in self._height_points.keys():
             draw.line(surface, (0, 0, 0),
                       (self.left_point(0), self.top_point(top_point)),
                       (self.left_point(max(self._width_points.keys())),
-                      self.top_point(top_point)))
+                       self.top_point(top_point)))

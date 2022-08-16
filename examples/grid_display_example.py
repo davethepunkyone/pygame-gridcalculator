@@ -115,4 +115,5 @@ def grid_display_example():
         pygame.display.update()
 
 
-grid_display_example()
+if __name__ == "__main__":
+    grid_display_example()

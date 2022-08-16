@@ -8,19 +8,19 @@ class TestGridCalculator(unittest.TestCase):
         self.test_grid = GridCalculator(100, 100, 5, 5)
         self.test_grid2 = GridCalculator(10, 20, 5, 10)
 
-    def test_init_grid_window_width_too_low(self) -> None:
-        """Test initialising grid with 0 sized window width errors"""
+    def test_init_grid_surface_width_too_low(self) -> None:
+        """Test initialising grid with 0 sized surface width errors"""
         with self.assertRaises(GridCalculatorException) as err:
-            GridCalculator(0, 100, 10, 10)
+            GridCalculator(0, 100, 0, 0)
         self.assertEqual(str(err.exception),
-                         "Window width must be greater than 1")
+                         "Surface width must be greater than 1")
 
-    def test_init_grid_window_height_too_low(self) -> None:
-        """Test initialising grid with 0 sized window height errors"""
+    def test_init_grid_surface_height_too_low(self) -> None:
+        """Test initialising grid with 0 sized surface height errors"""
         with self.assertRaises(GridCalculatorException) as err:
-            GridCalculator(100, 0, 10, 10)
+            GridCalculator(100, 0, 0, 0)
         self.assertEqual(str(err.exception),
-                         "Window height must be greater than 1")
+                         "Surface height must be greater than 1")
 
     def test_init_grid_grid_width_too_low(self) -> None:
         """Test initialising grid with 0 sized grid width errors"""
@@ -36,23 +36,66 @@ class TestGridCalculator(unittest.TestCase):
         self.assertEqual(str(err.exception),
                          "Grid height must be greater than 1")
 
-    def test_init_grid_grid_width_bigger_than_window(self) -> None:
-        """Test initialising grid with a window width smaller than the grid
+    def test_init_grid_grid_width_bigger_than_surface(self) -> None:
+        """Test initialising grid with a surface width smaller than the grid
         width errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 200, 10)
         self.assertEqual(str(err.exception),
-                         "The grid width cannot be greater than the window "
-                         "width")
+                         "The grid width (200) cannot be greater than the "
+                         "surface width (100)")
 
-    def test_init_grid_grid_height_bigger_than_window(self) -> None:
-        """Test initialising grid with a window height smaller than the grid
+    def test_init_grid_grid_height_bigger_than_surface(self) -> None:
+        """Test initialising grid with a surface height smaller than the grid
         height errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 10, 200)
         self.assertEqual(str(err.exception),
-                         "The grid height cannot be greater than the window "
-                         "height")
+                         "The grid height (200) cannot be greater than the "
+                         "surface height (100)")
+
+    def test_update_grid(self) -> None:
+        """Test updating the grid works as expected"""
+        self.test_grid.update_grid(10, 10)
+        self.assertEqual(self.test_grid.max_points, (10, 10))
+
+    def test_update_grid_error_grid_width_too_low(self) -> None:
+        """Test changing the grid to a width too low doesn't work"""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.update_grid(0, 2)
+        self.assertEqual(str(err.exception),
+                         "Grid width must be greater than 1")
+
+    def test_update_grid_error_grid_height_too_low(self) -> None:
+        """Test changing the grid to a height too low doesn't work"""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.update_grid(2, 0)
+        self.assertEqual(str(err.exception),
+                         "Grid height must be greater than 1")
+
+    def test_update_surface(self) -> None:
+        """Test updating the surface works"""
+        self.test_grid.update_surface(120, 120)
+        self.assertEqual(self.test_grid.points_from_right(0), 120)
+        self.assertEqual(self.test_grid.points_from_bottom(0), 120)
+
+    def test_update_surface_error_surface_width_smaller_than_grid(self):
+        """Test changing the surface to a width smaller than the grid doesn't
+        work"""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.update_surface(4, 20)
+        self.assertEqual(str(err.exception),
+                         "The grid width (5) cannot be greater than the "
+                         "surface width (4)")
+
+    def test_update_surface_error_surface_height_smaller_than_grid(self):
+        """Test changing the surface to a height smaller than the grid doesn't
+        work"""
+        with self.assertRaises(GridCalculatorException) as err:
+            self.test_grid.update_surface(20, 3)
+        self.assertEqual(str(err.exception),
+                         "The grid height (5) cannot be greater than the "
+                         "surface height (3)")
 
     def test_left_error_check_too_low(self) -> None:
         """Test the left error check."""

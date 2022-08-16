@@ -62,4 +62,5 @@ def start_shapes_example():
         pygame.display.update()
 
 
-start_shapes_example()
+if __name__ == "__main__":
+    start_shapes_example()
