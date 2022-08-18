@@ -37,7 +37,11 @@ co-ordinates to the position on the screen you want to reference.  You can then
 also use the ShapeFactory to place shapes on the screen based on the created
 GridCalculator.
 
-Created grids will always have a starting left and top position of 0.
+Created grids will always have a starting left and top position of 0, unless 
+the optional pixel start position arguments have been provided.  Grids are
+designed to be utilized against the whole pygame Surface, however it is possible
+to specify a grid for a specific area of the screen or even place a grid within
+a grid if needed.
 
 ## Install
 To install the Grid Calculator, you can download it using PIP:
@@ -85,7 +89,7 @@ The grid calculator has the following methods and functions:
 | __size__                                                                                                                                       | _Returns the total number of points in the grid (width, height)._                                                                               |
 | __pixel_size__                                                                                                                                 | _Returns the size of the grid in pixels (width, height)._                                                                                       |
 | __update_grid(grid_width_max: _int_, grid_height_max: _int_)__                                                                                 | _Resizes the grid points based on the values provided._                                                                                         |
-| __update_pixel_positions(pixel_end_left: _int_, pixel_end_top: _int_, (Optional) pixel_start_left: _int_, (Optional) pixel_start_top: _int_)__ | _Resizes the grid based on the pixel points provided._                                                                                          |
+| __update_pixel_positions(pixel_end_left: _int_, pixel_end_top: _int_, pixel_start_left: _int (Optional)_, pixel_start_top: _int (Optional)_)__ | _Resizes the grid based on the pixel points provided._                                                                                          |
 | __top_point(point: _int_)__                                                                                                                    | _Returns the pixel value for the point selected from the top of the grid._                                                                      |
 | __left_point(point: _int_)__                                                                                                                   | _Returns the pixel value for the point selected from the left of the grid._                                                                     |
 | __position(left_point: _int_, top_point: _int_)__                                                                                              | _Returns the pixel values for the point co-ordinates selected from the grid (left, top)._                                                       |
@@ -96,7 +100,7 @@ The grid calculator has the following methods and functions:
 | __points_from_top(points: _int_)__                                                                                                             | _Returns the pixel value for the amount of grid points away from the top border._                                                               |
 | __points_from_right(points: _int_)__                                                                                                           | _Returns the pixel value for the amount of grid points away from the right border._                                                             |
 | __points_from_bottom(points: _int_)__                                                                                                          | _Returns the pixel value for the amount of grid points away from the bottom border._                                                            |
-| __draw_grid_to_surface(surface: _pygame.Surface_, (Optional) color: _tuple_)__                                                                 | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
+| __draw_grid_to_surface(surface: _pygame.Surface_, color: _tuple (Optional)_)__                                                                 | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
 
 ## ShapeFactory
 ### Import ShapeFactory
@@ -253,4 +257,5 @@ repopulated on the resize an if statement could be added if needed to
 check the screen width/height and modify the grid as needed.
 
 ### Additional Examples
-A number of examples are also present in the [/examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) directory of the project.
+A number of examples are also present in the [/examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) 
+directory of the project.
