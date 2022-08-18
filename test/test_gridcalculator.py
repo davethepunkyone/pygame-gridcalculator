@@ -8,56 +8,87 @@ class TestGridCalculator(unittest.TestCase):
         self.test_grid = GridCalculator(100, 100, 5, 5)
         self.test_grid2 = GridCalculator(10, 20, 5, 10)
 
-    def test_init_grid_surface_width_too_low(self) -> None:
-        """Test initialising grid with 0 sized surface width errors"""
+    def test_init_grid(self) -> None:
+        """Test initialising grid works as expected"""
+        self.assertEqual(self.test_grid.size, (5, 5))
+        self.assertEqual(self.test_grid.pixel_size, (100, 100))
+        self.assertEqual(self.test_grid2.size, (5, 10))
+        self.assertEqual(self.test_grid2.pixel_size, (10, 20))
+
+    def test_init_grid_with_pixel_start_positions(self) -> None:
+        """Test initialising grid with start pixel positions works"""
+        new_grid = GridCalculator(300, 300, 2, 2, 100, 100)
+        self.assertEqual(new_grid.size, (2, 2))
+        self.assertEqual(new_grid.pixel_size, (200, 200))
+
+    def test_init_grid_error_pixel_end_left_too_low(self) -> None:
+        """Test initialising grid with 0 sized pixel end left errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(0, 100, 0, 0)
         self.assertEqual(str(err.exception),
-                         "Surface width must be greater than 1")
+                         "Pixel end left must be greater than 1")
 
-    def test_init_grid_surface_height_too_low(self) -> None:
-        """Test initialising grid with 0 sized surface height errors"""
+    def test_init_grid_error_pixel_end_top_too_low(self) -> None:
+        """Test initialising grid with 0 sized pixel end top errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 0, 0, 0)
         self.assertEqual(str(err.exception),
-                         "Surface height must be greater than 1")
+                         "Pixel end top must be greater than 1")
 
-    def test_init_grid_grid_width_too_low(self) -> None:
+    def test_init_grid_error_grid_width_too_low(self) -> None:
         """Test initialising grid with 0 sized grid width errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 0, 10)
         self.assertEqual(str(err.exception),
                          "Grid width must be greater than 1")
 
-    def test_init_grid_grid_height_too_low(self) -> None:
+    def test_init_grid_error_grid_height_too_low(self) -> None:
         """Test initialising grid with 0 sized grid height errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 10, 0)
         self.assertEqual(str(err.exception),
                          "Grid height must be greater than 1")
 
-    def test_init_grid_grid_width_bigger_than_surface(self) -> None:
-        """Test initialising grid with a surface width smaller than the grid
+    def test_init_grid_error_grid_width_bigger_than_end_left(self) -> None:
+        """Test initialising grid with a pixel end left smaller than the grid
         width errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 200, 10)
         self.assertEqual(str(err.exception),
                          "The grid width (200) cannot be greater than the "
-                         "surface width (100)")
+                         "pixel end left (100)")
 
-    def test_init_grid_grid_height_bigger_than_surface(self) -> None:
-        """Test initialising grid with a surface height smaller than the grid
+    def test_init_grid_error_grid_height_bigger_than_end_top(self) -> None:
+        """Test initialising grid with a pixel end top smaller than the grid
         height errors"""
         with self.assertRaises(GridCalculatorException) as err:
             GridCalculator(100, 100, 10, 200)
         self.assertEqual(str(err.exception),
                          "The grid height (200) cannot be greater than the "
-                         "surface height (100)")
+                         "pixel end top (100)")
+
+    def test_init_grid_error_grid_start_left_bigger_than_end(self) -> None:
+        """Test initialising grid with a pixel start left bigger than pixel end
+         left errors"""
+        with self.assertRaises(GridCalculatorException) as err:
+            GridCalculator(100, 100, 10, 10, 150, 50)
+        self.assertEqual(str(err.exception),
+                         "The grid width (10) cannot be greater than the pixel"
+                         " end left (-50)")
+
+    def test_init_grid_error_grid_start_top_bigger_than_end(self) -> None:
+        """Test initialising grid with a pixel start top bigger than pixel end
+         top errors"""
+        with self.assertRaises(GridCalculatorException) as err:
+            GridCalculator(100, 100, 10, 10, 50, 101)
+        self.assertEqual(str(err.exception),
+                         "The grid height (10) cannot be greater than the "
+                         "pixel end top (-1)")
 
     def test_update_grid(self) -> None:
         """Test updating the grid works as expected"""
         self.test_grid.update_grid(10, 10)
-        self.assertEqual(self.test_grid.max_points, (10, 10))
+        self.assertEqual(self.test_grid.size, (10, 10))
 
     def test_update_grid_error_grid_width_too_low(self) -> None:
         """Test changing the grid to a width too low doesn't work"""
@@ -73,29 +104,29 @@ class TestGridCalculator(unittest.TestCase):
         self.assertEqual(str(err.exception),
                          "Grid height must be greater than 1")
 
-    def test_update_surface(self) -> None:
-        """Test updating the surface works"""
-        self.test_grid.update_surface(120, 120)
+    def test_update_pixel_positions(self) -> None:
+        """Test updating the pixel positions works"""
+        self.test_grid.update_pixel_positions(120, 120)
         self.assertEqual(self.test_grid.points_from_right(0), 120)
         self.assertEqual(self.test_grid.points_from_bottom(0), 120)
 
-    def test_update_surface_error_surface_width_smaller_than_grid(self):
-        """Test changing the surface to a width smaller than the grid doesn't
-        work"""
+    def test_update_pixel_positions_error_end_left_smaller_than_grid(self):
+        """Test changing the pixel end left to a width smaller than the grid
+        doesn't work"""
         with self.assertRaises(GridCalculatorException) as err:
-            self.test_grid.update_surface(4, 20)
+            self.test_grid.update_pixel_positions(4, 20)
         self.assertEqual(str(err.exception),
                          "The grid width (5) cannot be greater than the "
-                         "surface width (4)")
+                         "pixel end left (4)")
 
-    def test_update_surface_error_surface_height_smaller_than_grid(self):
-        """Test changing the surface to a height smaller than the grid doesn't
-        work"""
+    def test_update_pixel_positions_error_end_top_smaller_than_grid(self):
+        """Test changing the pixel end top to a height smaller than the grid
+        doesn't work"""
         with self.assertRaises(GridCalculatorException) as err:
-            self.test_grid.update_surface(20, 3)
+            self.test_grid.update_pixel_positions(20, 3)
         self.assertEqual(str(err.exception),
                          "The grid height (5) cannot be greater than the "
-                         "surface height (3)")
+                         "pixel end top (3)")
 
     def test_left_error_check_too_low(self) -> None:
         """Test the left error check."""
@@ -131,13 +162,8 @@ class TestGridCalculator(unittest.TestCase):
 
     def test_get_size(self) -> None:
         """Test the size of the grid is returned correctly."""
-        self.assertEqual(self.test_grid.size, (6, 6))
-        self.assertEqual(self.test_grid2.size, (6, 11))
-
-    def test_get_max_points(self) -> None:
-        """Test the max points of the grid is returned correctly."""
-        self.assertEqual(self.test_grid.max_points, (5, 5))
-        self.assertEqual(self.test_grid2.max_points, (5, 10))
+        self.assertEqual(self.test_grid.size, (5, 5))
+        self.assertEqual(self.test_grid2.size, (5, 10))
 
     def test_top_point(self) -> None:
         """Test getting the top point returns the right value."""
