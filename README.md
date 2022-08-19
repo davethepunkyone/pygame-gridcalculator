@@ -37,7 +37,11 @@ co-ordinates to the position on the screen you want to reference.  You can then
 also use the ShapeFactory to place shapes on the screen based on the created
 GridCalculator.
 
-Created grids will always have a starting left and top position of 0.
+Created grids will always have a starting left and top position of 0, unless 
+the optional pixel start position arguments have been provided.  Grids are
+designed to be utilized against the whole pygame Surface, however it is possible
+to specify a grid for a specific area of the screen or even place a grid within
+a grid if needed.
 
 ## Install
 To install the Grid Calculator, you can download it using PIP:
@@ -56,10 +60,14 @@ To initialize a grid Calculator, use the following logic to assign to a variable
     grid = GridCalculator(display_width, display_height, grid_width, grid_height)
 
 The arguments to specify are as follows:
-* __display_width__: _The width of the current pygame display_
-* __display_height__: _The height of the current pygame display_
+* __pixel_end_left__: _The far right point of the grid in pixels_
+* __pixel_end_top__: _The bottom point of the grid in pixels_
 * __grid_width__: _The total number of points you want in your grid from left to right_
 * __grid_height__: _The total number of points you want in your grid from top to bottom_
+
+The following additional arguments can be provided if needed:
+* __pixel_start_left__: _The far left point of the grid in pixels (defaults to 0)_
+* __pixel_start_top__: _The top point of the grid in pixels (defaults to 0)_
 
 So if you want to initialize a grid that is 8x6 for your display of 800x600, the code
 would look something like:
@@ -67,24 +75,32 @@ would look something like:
     display = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
     grid = Grid(display.get_width(), display.get_height(), 8, 6)
 
+Or if you want to initialize a grid that is 2x2 for your display of 200x200, but you want
+the grid to start 100 pixels in from the left and top, the code would look something like:
+
+    display = pygame.display.set_mode((200, 200), pygame.RESIZABLE)
+    grid = Grid(display.get_width(), display.get_height(), 2, 2, 100, 100)
+
 ### GridCalculator Methods and Functions
 The grid calculator has the following methods and functions:
 
-| Method                                                                           | Description                                                                                                                                     |
-|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| __size__                                                                         | _Returns the total number of points in the grid (width, height)._                                                                               |
-| __max_points__                                                                   | _Returns the max points of the grid (width, height)._                                                                                           |
-| __top_point(point: _int_)__                                                      | _Returns the pixel value for the point selected from the top of the grid._                                                                      |
-| __left_point(point: _int_)__                                                     | _Returns the pixel value for the point selected from the left of the grid._                                                                     |
-| __position(left_point: _int_, top_point: _int_)__                                | _Returns the pixel values for the point co-ordinates selected from the grid (left, top)._                                                       |
-| __height_gap(top_point1: _int_, top_point2: _int_)__                             | _Returns the pixel height between the two top grid points specified._                                                                           |
-| __width_gap(left_point1: _int_, left_point2: _int_)__                            | _Returns the pixel width between the two left grid points specified._                                                                           |
-| __square(left_start: _int_, top_start: _int_, left_end: _int_, top_end: _int_)__ | _Returns the pixel height and width of a square based on the grid position of the top left corner and the bottom right corner (width, height)._ |
-| __points_from_left(points: _int_)__                                              | _Returns the pixel value for the amount of grid points away from the left border._                                                              |
-| __points_from_top(points: _int_)__                                               | _Returns the pixel value for the amount of grid points away from the top border._                                                               |
-| __points_from_right(points: _int_)__                                             | _Returns the pixel value for the amount of grid points away from the right border._                                                             |
-| __points_from_bottom(points: _int_)__                                            | _Returns the pixel value for the amount of grid points away from the bottom border._                                                            |
-| __draw_grid_to_surface(surface: _pygame.Surface_)__                              | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
+| Method                                                                                                                                         | Description                                                                                                                                     |
+|------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| __size__                                                                                                                                       | _Returns the total number of points in the grid (width, height)._                                                                               |
+| __pixel_size__                                                                                                                                 | _Returns the size of the grid in pixels (width, height)._                                                                                       |
+| __update_grid(grid_width_max: _int_, grid_height_max: _int_)__                                                                                 | _Resizes the grid points based on the values provided._                                                                                         |
+| __update_pixel_positions(pixel_end_left: _int_, pixel_end_top: _int_, pixel_start_left: _int (Optional)_, pixel_start_top: _int (Optional)_)__ | _Resizes the grid based on the pixel points provided._                                                                                          |
+| __top_point(point: _int_)__                                                                                                                    | _Returns the pixel value for the point selected from the top of the grid._                                                                      |
+| __left_point(point: _int_)__                                                                                                                   | _Returns the pixel value for the point selected from the left of the grid._                                                                     |
+| __position(left_point: _int_, top_point: _int_)__                                                                                              | _Returns the pixel values for the point co-ordinates selected from the grid (left, top)._                                                       |
+| __height_gap(top_point1: _int_, top_point2: _int_)__                                                                                           | _Returns the pixel height between the two top grid points specified._                                                                           |
+| __width_gap(left_point1: _int_, left_point2: _int_)__                                                                                          | _Returns the pixel width between the two left grid points specified._                                                                           |
+| __square(left_start: _int_, top_start: _int_, left_end: _int_, top_end: _int_)__                                                               | _Returns the pixel height and width of a square based on the grid position of the top left corner and the bottom right corner (width, height)._ |
+| __points_from_left(points: _int_)__                                                                                                            | _Returns the pixel value for the amount of grid points away from the left border._                                                              |
+| __points_from_top(points: _int_)__                                                                                                             | _Returns the pixel value for the amount of grid points away from the top border._                                                               |
+| __points_from_right(points: _int_)__                                                                                                           | _Returns the pixel value for the amount of grid points away from the right border._                                                             |
+| __points_from_bottom(points: _int_)__                                                                                                          | _Returns the pixel value for the amount of grid points away from the bottom border._                                                            |
+| __draw_grid_to_surface(surface: _pygame.Surface_, color: _tuple (Optional)_)__                                                                 | _Draws the lines of the grid onto the pygame display provided (does not update display)._                                                       |
 
 ## ShapeFactory
 ### Import ShapeFactory
@@ -241,4 +257,5 @@ repopulated on the resize an if statement could be added if needed to
 check the screen width/height and modify the grid as needed.
 
 ### Additional Examples
-A number of examples are also present in the [examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) directory of the project.
+A number of examples are also present in the [/examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) 
+directory of the project.

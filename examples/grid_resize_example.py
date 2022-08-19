@@ -35,7 +35,7 @@ def grid_resize_example():
             if event.type == pygame.VIDEORESIZE:
                 display_height = event.h
                 display_width = event.w
-                grid.update_surface(display_width, display_height)
+                grid.update_pixel_positions(display_width, display_height)
 
         # Draw the grid to display
         grid.draw_grid_to_surface(display)
@@ -48,14 +48,14 @@ def grid_resize_example():
                 grid_width += 1
                 grid_height += 1
                 if display_width > 100 and display_height > 100:
-                    grid.update_surface(display_width - 100,
-                                        display_height - 100)
+                    grid.update_pixel_positions(display_width - 100,
+                                                display_height - 100)
                 if grid_width > 15:
                     increase_grid = False
             else:
                 grid_width -= 1
                 grid_height -= 1
-                grid.update_surface(display_width, display_height)
+                grid.update_pixel_positions(display_width, display_height)
                 if grid_width < 6:
                     increase_grid = True
             grid.update_grid(grid_width, grid_height)
