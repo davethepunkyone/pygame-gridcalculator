@@ -36,9 +36,12 @@ def multiple_grids_example():
                 display_width = event.w
                 if display_height < 105 or display_width < 105:
                     pygame.display.set_mode((200, 200), pygame.RESIZABLE)
-                grid.update_pixel_positions(display_width, display_height, 100, 100)
-                grid3.update_pixel_positions(display_width, 100, pixel_start_left=100)
-                grid4.update_pixel_positions(100, display_height, pixel_start_top=100)
+                grid.update_pixel_positions(display_width, display_height, 100,
+                                            100)
+                grid3.update_pixel_positions(display_width, 100,
+                                             pixel_start_left=100)
+                grid4.update_pixel_positions(100, display_height,
+                                             pixel_start_top=100)
                 grid_in_grid.update_pixel_positions(grid.left_point(5),
                                                     grid.top_point(2),
                                                     grid.left_point(4),
@@ -52,14 +55,12 @@ def multiple_grids_example():
         grid_in_grid.draw_grid_to_surface(display, (50, 50, 255))
         shape_factory.draw_polygon(display, (255, 0, 0),
                                    [(1, 4), (3, 1), (5, 4)], 3)
-        pygame.draw.line(display, (0, 255, 0), (grid._get_width_pixels(0.5),
-                         grid._get_height_pixels(0.5)),
-                         (grid._get_width_pixels(3),
-                          grid._get_height_pixels(3)), 3)
+        pygame.draw.line(display, (0, 255, 0), (grid.left_point(0.5),
+                                                grid.top_point(0.5)),
+                         (grid.left_point(3), grid.top_point(3)), 3)
         pygame.draw.line(display, (0, 0, 255), (grid.left_point(1),
-                         grid.top_point(1)),
-                         (grid.left_point(3),
-                          grid.top_point(3)), 3)
+                                                grid.top_point(1)),
+                         (grid.left_point(3), grid.top_point(3)), 3)
 
         pygame.display.update()
 
