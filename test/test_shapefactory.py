@@ -1,7 +1,7 @@
 import unittest
 import pygame
-from gridcalculator import GridCalculator
-from shapefactory import ShapeFactory
+from pygame_gridcalculator.gridcalculator import GridCalculator
+from pygame_gridcalculator.shapefactory import ShapeFactory
 
 
 class TestShapeFactory(unittest.TestCase):

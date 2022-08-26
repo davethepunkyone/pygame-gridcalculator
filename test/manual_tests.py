@@ -2,7 +2,7 @@
    tested nicely using unittest."""
 
 import pygame
-from gridcalculator import GridCalculator
+from pygame_gridcalculator.gridcalculator import GridCalculator
 
 
 def test_draw_grid_to_screen() -> None:
