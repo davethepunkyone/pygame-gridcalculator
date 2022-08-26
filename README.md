@@ -17,6 +17,7 @@ __Contents__
 - [Examples](#Examples)
   - [Basic usage](#Basic-usage)
   - [Full Scalable Example](#Full-Scalable-Example)
+  - [Snake Example](#Snake-Example)
   - [Additional Examples](#Additional-Examples)
 
 ## Purpose
@@ -255,6 +256,30 @@ Dependent on the situation, you may want to modify the grid based on
 the window size and rescale the grid appropriately.  Because the grid is
 repopulated on the resize an if statement could be added if needed to
 check the screen width/height and modify the grid as needed.
+
+### Snake Example
+
+The full code for this example can be found in the 
+[examples/snake_example.py](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples/snake_example.py)
+file, which shows the use of the ShapeFactory to create the snake and fruit 
+along with using the GridCalculator to house the positioning of the objects on
+the screen.  This example also utilises a grid-in-grid to display a border around
+the outside of the display.  This example is fully scalable, so the window can also be
+resized as the game is in-play.
+
+__Screenshots__
+
+_Default Size:_
+
+![Snake Default Example](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/snake_example_default.png)
+
+_Smaller Size:_
+
+![Snake Small Example](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/snake_example_small.png)
+
+_Wider Size:_
+
+![Snake Wide Example](https://raw.githubusercontent.com/davethepunkyone/pygame-gridcalculator/main/images/snake_example_wide.png)
 
 ### Additional Examples
 A number of examples are also present in the [/examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) 
