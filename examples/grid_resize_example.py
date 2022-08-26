@@ -4,7 +4,7 @@ surface size when the grid grows in size."""
 
 import pygame
 import pygame.time
-from pygame_gridcalculator import GridCalculator, ShapeFactory
+from src.pygame_gridcalculator import GridCalculator, ShapeFactory
 
 FPS = 60
 

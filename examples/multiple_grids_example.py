@@ -3,7 +3,7 @@ and how grids can be placed within grids."""
 
 import pygame
 import pygame.time
-from pygame_gridcalculator import GridCalculator, ShapeFactory
+from src.pygame_gridcalculator import GridCalculator, ShapeFactory
 
 pygame.init()
 

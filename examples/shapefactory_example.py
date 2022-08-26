@@ -4,7 +4,7 @@ surface for demonstration purposes."""
 
 import pygame
 import pygame.gfxdraw
-from pygame_gridcalculator import GridCalculator, ShapeFactory
+from src.pygame_gridcalculator import GridCalculator, ShapeFactory
 
 pygame.init()
 

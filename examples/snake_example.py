@@ -7,7 +7,7 @@ from enum import Enum
 
 import pygame
 import pygame.time
-from pygame_gridcalculator import GridCalculator, ShapeFactory
+from src.pygame_gridcalculator import GridCalculator, ShapeFactory
 
 pygame.init()
 clock = pygame.time.Clock()

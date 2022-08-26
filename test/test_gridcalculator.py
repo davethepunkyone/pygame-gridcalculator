@@ -1,5 +1,5 @@
 import unittest
-from pygame_gridcalculator.gridcalculator import GridCalculator, \
+from gridcalculator import GridCalculator, \
     GridCalculatorException
 
 
