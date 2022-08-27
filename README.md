@@ -19,7 +19,7 @@ __Contents__
   - [Full Scalable Example](#Full-Scalable-Example)
   - [Snake Example](#Snake-Example)
   - [Additional Examples](#Additional-Examples)
-- [Requesting Features or Reporting Bugs]
+- [Requesting Features or Reporting Bugs](#Requesting-Features-or-Reporting-Bugs)
 
 ## Purpose
 This tool is designed to easily map positions on a pygame display without
