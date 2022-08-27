@@ -19,6 +19,7 @@ __Contents__
   - [Full Scalable Example](#Full-Scalable-Example)
   - [Snake Example](#Snake-Example)
   - [Additional Examples](#Additional-Examples)
+- [Requesting Features or Reporting Bugs]
 
 ## Purpose
 This tool is designed to easily map positions on a pygame display without
@@ -284,3 +285,8 @@ _Wider Size:_
 ### Additional Examples
 A number of examples are also present in the [/examples](https://github.com/davethepunkyone/pygame-gridcalculator/tree/main/examples) 
 directory of the project.
+
+## Requesting Features or Reporting Bugs
+
+If you have any ideas for additional functionality or need to report a bug, please 
+[raise an issue](https://github.com/davethepunkyone/pygame-gridcalculator/issues/new/choose).
