@@ -21,6 +21,59 @@ class Direction(Enum):
     LEFT = 4
 
 
+def determine_snake_direction(event: pygame.event, snake_direction: Direction) -> Direction:
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP and \
+                snake_direction != Direction.DOWN:
+            return Direction.UP
+        elif event.key == pygame.K_RIGHT and \
+                snake_direction != Direction.LEFT:
+            return Direction.RIGHT
+        elif event.key == pygame.K_DOWN and \
+                snake_direction != Direction.UP:
+            return Direction.DOWN
+        elif event.key == pygame.K_LEFT and \
+                snake_direction != Direction.RIGHT:
+            return Direction.LEFT
+
+    return snake_direction
+
+
+def determine_snake_position(snake_direction: Direction, snake_head_top: int, snake_head_left: int) -> tuple:
+    if snake_direction == Direction.UP:
+        snake_head_top -= 1
+        if snake_head_top == -1:
+            snake_head_top = 9
+    elif snake_direction == Direction.RIGHT:
+        snake_head_left += 1
+        if snake_head_left == 10:
+            snake_head_left = 0
+    elif snake_direction == Direction.DOWN:
+        snake_head_top += 1
+        if snake_head_top == 10:
+            snake_head_top = 0
+    elif snake_direction == Direction.LEFT:
+        snake_head_left -= 1
+        if snake_head_left == -1:
+            snake_head_left = 9
+
+    return snake_head_top, snake_head_left
+
+
+def keep_game_running(event: pygame.event) -> bool:
+    running = True
+
+    if event.type == pygame.QUIT:
+        running = False
+
+    if event.type == pygame.KEYDOWN:
+        # Keyboard button presses
+        if event.key == pygame.K_ESCAPE:
+            running = False
+
+    return running
+
+
 def start_snake_example() -> None:
     running = True
     display = pygame.display.set_mode((300, 300), pygame.RESIZABLE)
@@ -45,9 +98,7 @@ def start_snake_example() -> None:
         display.fill((0, 0, 0))
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                break
+            running = keep_game_running(event)
             if event.type == pygame.VIDEORESIZE:
                 # On window resize, adjust grids accordingly
                 display_height = event.h
@@ -59,23 +110,7 @@ def start_snake_example() -> None:
                                             full_screen.points_from_left(1),
                                             full_screen.points_from_top(1))
 
-            if event.type == pygame.KEYDOWN:
-                # Keyboard button presses
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-                    break
-                if event.key == pygame.K_UP and \
-                        snake_direction != Direction.DOWN:
-                    snake_direction = Direction.UP
-                elif event.key == pygame.K_RIGHT and \
-                        snake_direction != Direction.LEFT:
-                    snake_direction = Direction.RIGHT
-                elif event.key == pygame.K_DOWN and \
-                        snake_direction != Direction.UP:
-                    snake_direction = Direction.DOWN
-                elif event.key == pygame.K_LEFT and \
-                        snake_direction != Direction.RIGHT:
-                    snake_direction = Direction.LEFT
+            snake_direction = determine_snake_direction(event, snake_direction)
 
         # Draw border
         border = shape_factory.Rect(0, 0, grid.width_gap(0, 10),
@@ -83,22 +118,8 @@ def start_snake_example() -> None:
         pygame.draw.rect(display, (255, 255, 255), border)
 
         # Draw snake position
-        if snake_direction == Direction.UP:
-            snake_head_top -= 1
-            if snake_head_top == -1:
-                snake_head_top = 9
-        elif snake_direction == Direction.RIGHT:
-            snake_head_left += 1
-            if snake_head_left == 10:
-                snake_head_left = 0
-        elif snake_direction == Direction.DOWN:
-            snake_head_top += 1
-            if snake_head_top == 10:
-                snake_head_top = 0
-        elif snake_direction == Direction.LEFT:
-            snake_head_left -= 1
-            if snake_head_left == -1:
-                snake_head_left = 9
+        get_positions = determine_snake_position(snake_direction, snake_head_top, snake_head_left)
+        snake_head_top, snake_head_left = get_positions
 
         # Create the snake head
         head_rect = shape_factory.Rect(snake_head_left, snake_head_top,
