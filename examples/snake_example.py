@@ -21,6 +21,27 @@ class Direction(Enum):
     LEFT = 4
 
 
+def determine_snake_position(snake_direction: Direction, snake_head_top: int, snake_head_left: int) -> tuple:
+    if snake_direction == Direction.UP:
+        snake_head_top -= 1
+        if snake_head_top == -1:
+            snake_head_top = 9
+    elif snake_direction == Direction.RIGHT:
+        snake_head_left += 1
+        if snake_head_left == 10:
+            snake_head_left = 0
+    elif snake_direction == Direction.DOWN:
+        snake_head_top += 1
+        if snake_head_top == 10:
+            snake_head_top = 0
+    elif snake_direction == Direction.LEFT:
+        snake_head_left -= 1
+        if snake_head_left == -1:
+            snake_head_left = 9
+    
+    return snake_head_top, snake_head_left
+
+
 def start_snake_example() -> None:
     running = True
     display = pygame.display.set_mode((300, 300), pygame.RESIZABLE)
@@ -83,22 +104,8 @@ def start_snake_example() -> None:
         pygame.draw.rect(display, (255, 255, 255), border)
 
         # Draw snake position
-        if snake_direction == Direction.UP:
-            snake_head_top -= 1
-            if snake_head_top == -1:
-                snake_head_top = 9
-        elif snake_direction == Direction.RIGHT:
-            snake_head_left += 1
-            if snake_head_left == 10:
-                snake_head_left = 0
-        elif snake_direction == Direction.DOWN:
-            snake_head_top += 1
-            if snake_head_top == 10:
-                snake_head_top = 0
-        elif snake_direction == Direction.LEFT:
-            snake_head_left -= 1
-            if snake_head_left == -1:
-                snake_head_left = 9
+        get_positions = determine_snake_position(snake_direction, snake_head_top, snake_head_left)
+        snake_head_top, snake_head_left = get_positions
 
         # Create the snake head
         head_rect = shape_factory.Rect(snake_head_left, snake_head_top,
