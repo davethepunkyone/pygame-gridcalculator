@@ -21,20 +21,21 @@ class Direction(Enum):
     LEFT = 4
 
 
-def determine_snake_direction(event_key: int, snake_direction: Direction) -> Direction:
-    if event_key == pygame.K_UP and \
-            snake_direction != Direction.DOWN:
-        return Direction.UP
-    elif event_key == pygame.K_RIGHT and \
-            snake_direction != Direction.LEFT:
-        return Direction.RIGHT
-    elif event_key == pygame.K_DOWN and \
-            snake_direction != Direction.UP:
-        return Direction.DOWN
-    elif event_key == pygame.K_LEFT and \
-            snake_direction != Direction.RIGHT:
-        return Direction.LEFT
-    
+def determine_snake_direction(event: pygame.event, snake_direction: Direction) -> Direction:
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP and \
+                snake_direction != Direction.DOWN:
+            return Direction.UP
+        elif event.key == pygame.K_RIGHT and \
+                snake_direction != Direction.LEFT:
+            return Direction.RIGHT
+        elif event.key == pygame.K_DOWN and \
+                snake_direction != Direction.UP:
+            return Direction.DOWN
+        elif event.key == pygame.K_LEFT and \
+                snake_direction != Direction.RIGHT:
+            return Direction.LEFT
+
     return snake_direction
 
 
@@ -57,6 +58,20 @@ def determine_snake_position(snake_direction: Direction, snake_head_top: int, sn
             snake_head_left = 9
 
     return snake_head_top, snake_head_left
+
+
+def keep_game_running(event: pygame.event) -> bool:
+    running = True
+
+    if event.type == pygame.QUIT:
+        running = False
+
+    if event.type == pygame.KEYDOWN:
+        # Keyboard button presses
+        if event.key == pygame.K_ESCAPE:
+            running = False
+
+    return running
 
 
 def start_snake_example() -> None:
@@ -83,9 +98,7 @@ def start_snake_example() -> None:
         display.fill((0, 0, 0))
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                break
+            running = keep_game_running(event)
             if event.type == pygame.VIDEORESIZE:
                 # On window resize, adjust grids accordingly
                 display_height = event.h
@@ -97,13 +110,7 @@ def start_snake_example() -> None:
                                             full_screen.points_from_left(1),
                                             full_screen.points_from_top(1))
 
-            if event.type == pygame.KEYDOWN:
-                # Keyboard button presses
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-                    break
-                
-                snake_direction = determine_snake_direction(event.key, snake_direction)
+            snake_direction = determine_snake_direction(event, snake_direction)
 
         # Draw border
         border = shape_factory.Rect(0, 0, grid.width_gap(0, 10),
