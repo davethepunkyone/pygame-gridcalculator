@@ -12,21 +12,24 @@ def test_draw_grid_to_screen() -> None:
     screen = pygame.display.set_mode((301, 301))
 
     # Draw visual gridlines for checking
-    line_coords = [
-        {"start": (0, 0), "end": (0, 300), "width": 5},
-        {"start": (150, 0), "end": (150, 300), "width": 5},
-        {"start": (300, 0), "end": (300, 300), "width": 5},
-        {"start": (0, 0), "end": (300, 0), "width": 5},
-        {"start": (0, 150), "end": (300, 150), "width": 5},
-        {"start": (0, 300), "end": (300, 300), "width": 5}
+    line_coords: list[dict] = [
+        {"start": (0.0, 0.0), "end": (0.0, 300.0), "width": 5},
+        {"start": (150.0, 0.0), "end": (150.0, 300.0), "width": 5},
+        {"start": (300.0, 0.0), "end": (300.0, 300.0), "width": 5},
+        {"start": (0.0, 0.0), "end": (300.0, 0.0), "width": 5},
+        {"start": (0.0, 150.0), "end": (300.0, 150.0), "width": 5},
+        {"start": (0.0, 300.0), "end": (300.0, 300.0), "width": 5}
     ]
     running = True
     while running:
         screen.fill((255, 255, 255))  # Just for local viewing
 
         for line in line_coords:
-            pygame.draw.line(screen, (153, 255, 204), line["start"],
-                             line["end"], line["width"])
+            start_pos: tuple[float, float] = line["start"]
+            end_pos: tuple[float, float] = line["end"]
+            width: int = line["width"]
+            pygame.draw.line(screen, (153, 255, 204), start_pos,
+                             end_pos, width)
 
         grid = GridCalculator(300, 300, 2, 2)
         # What is actually under test

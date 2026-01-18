@@ -1,3 +1,6 @@
-from .gridcalculator import GridCalculator, GridCalculatorException
-from .shapefactory import ShapeFactory
-__all__ = [GridCalculator, GridCalculatorException, ShapeFactory]
+from pygame_gridcalculator.gridcalculator import (
+    GridCalculator,
+    GridCalculatorException
+)
+from pygame_gridcalculator.shapefactory import ShapeFactory
+__all__ = ["GridCalculator", "GridCalculatorException", "ShapeFactory"]
